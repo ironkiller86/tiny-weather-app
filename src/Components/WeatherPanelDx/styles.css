@@ -1,0 +1,13 @@
+.weatherPanelDxContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+   align-items: center;
+   justify-content: center;
+    background-color:darkgrey;
+   border-radius: 15px;
+   opacity: 0.500;
+  
+    padding: 30px;
+    margin-right: 10px;
+}
