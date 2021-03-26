@@ -11,7 +11,7 @@ const { Content } = Layout;
  *
  * @returns
  */
-const WeatherApp = () => {
+const WeatherApp = (props) => {
   return (
     <Layout>
       <Content>
@@ -20,7 +20,12 @@ const WeatherApp = () => {
             <Row>
               <Col xs={2} sm={4} md={8} />
               <Col xs={20} sm={16} md={8}>
-                <CityField placeholder="EnterCity" />
+                <CityField
+                  placeholder="EnterCity"
+                  allowPosition={props.allowPosition}
+                  setCity={props.setCity}
+                  flagPosition={props.flagPosition}
+                />
               </Col>
               <Col xs={2} sm={4} md={8} />
             </Row>
@@ -62,7 +67,12 @@ const WeatherApp = () => {
             <Row sty>
               <Col xs={2} sm={4} md={8} />
               <Col xs={20} sm={16} md={8}>
-                <CityField placeholder="EnterCity" />
+                <CityField
+                  placeholder="EnterCity"
+                  allowPosition={props.allowPosition}
+                  setCity={props.setCity}
+                  flagPosition={props.flagPosition}
+                />
               </Col>
               <Col xs={2} sm={4} md={8} />
             </Row>
