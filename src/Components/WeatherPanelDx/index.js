@@ -1,93 +1,27 @@
-
-import './styles.css';
+import WeatherDetailBox from "../WeatherDetailBox";
+import "./styles.css";
 /*
- * 
+ *
  */
-const WeatherPanelDx = ({ firstMessage, secondMessage }) => {
-    return (
-        <div className="weatherPanelDxContainer">
-            <div style={{
+const fakeWeatherData = [
+  { data: "15°", label: "Hight" },
+  { data: "0.48 mph", label: "Wind" },
+  { data: "06:00°", label: "Sunrise" },
+  { data: "10°", label: "Low" },
+  { data: "48%", label: "Rain" },
+  { data: "18:23", label: "Sunset" },
+];
 
-                minWidth: '200px',
-                minHeight: '100px',
-                display: 'flex',
-                flexDirection: "column",
-                /*  backgroundColor: 'red',*/
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <span>11</span>
-                <span>Hight</span>
-            </div>
-            <div style={{
-
-                minWidth: '200px',
-                minHeight: '100px',
-                display: 'flex',
-                flexDirection: "column",
-                /*  backgroundColor: 'red',*/
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <span>11</span>
-                <span>Hight</span>
-            </div>
-            <div style={{
-
-                minWidth: '200px',
-                minHeight: '100px',
-                display: 'flex',
-                flexDirection: "column",
-                /* backgroundColor: 'red',*/
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <span>11</span>
-                <span>Hight</span>
-            </div>
-            <div style={{
-
-                width: '200px',
-                height: '100px',
-                display: 'flex',
-                flexDirection: "column",
-                /*   backgroundColor: 'red',*/
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <span>11</span>
-                <span>Hight</span>
-            </div>
-            <div style={{
-
-                width: '200px',
-                height: '100px',
-                display: 'flex',
-                flexDirection: "column",
-                /* backgroundColor: 'red',*/
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <span>11</span>
-                <span>Hight</span>
-            </div>
-            <div style={{
-
-                width: '200px',
-                height: '100px',
-                display: 'flex',
-                flexDirection: "column",
-                /* backgroundColor: 'red',*/
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <span>11</span>
-                <span>Hight</span>
-            </div>
-        </div>
-    )
-}
+const WeatherPanelDx = () => {
+  return (
+    <div className="weatherPanelDxContainer">
+      {fakeWeatherData.map(({ data, label }, index) => (
+        <WeatherDetailBox key={index} firstRow={data} secondRow={label} />
+      ))}
+    </div>
+  );
+};
 /*
- * 
+ *
  */
-export default WeatherPanelDx
+export default WeatherPanelDx;

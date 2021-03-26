@@ -1,0 +1,52 @@
+.forecastCardContainer {
+  min-height: 170px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;*/
+  align-items: center;
+  border-radius: 10px;
+  background-color: lightskyblue;
+  opacity: 0.7;
+  margin: 10px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  /* background-color: lightskyblue;*/
+  flex: 33%;
+  max-height: 60px;
+}
+.cardHeader > span {
+  max-height: 60px;
+  font-size: 20px;
+  font-family: boldItalic;
+}
+
+.cardBody {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  flex: 33%;
+  max-height: 60px;
+}
+
+.cardBody > img {
+  width: 70px;
+}
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*background-color: orange;*/
+  flex: 33%;
+  width: 100%;
+  font-family: boldItalic;
+  max-height: 60px;
+  font-size: 20px;
+}

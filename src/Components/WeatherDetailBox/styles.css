@@ -1,0 +1,17 @@
+.weatherDetailBoxContainer {
+  display: flex;
+
+  min-width: 150px;
+  min-height: 150px;
+  margin: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: blue;
+}
+
+.weatherDetailBoxContainer > span {
+  font-size: 16px;
+  font-family: boldItalic;
+}

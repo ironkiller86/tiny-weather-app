@@ -1,0 +1,7 @@
+.forecastPanelContainer {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  padding: 5px;
+  /*  background-color: lightpink;*/
+}

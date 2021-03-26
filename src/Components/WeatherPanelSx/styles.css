@@ -1,0 +1,32 @@
+.weatherPanelSxContainer {
+  display: flex;
+  flex-direction: row;
+  /* background-color: lightpink;*/
+}
+.iconContainer {
+  text-align: center;
+  display: inline-block;
+  font-size: 100px;
+  padding-top: 30px;
+  /* background-color: lightslategray;*/
+  flex: 20%;
+}
+
+.temp {
+  font-size: 100px;
+  font-family: boldItalic;
+}
+#weatherText {
+  font-family: boldItalic;
+  font-size: 30px;
+}
+
+.temContainer {
+  /* background-color: lightgray;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 10px;
+  height: 50%;
+  flex: 50%;
+}

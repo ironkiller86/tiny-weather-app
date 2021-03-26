@@ -1,0 +1,10 @@
+.ant-layout-content {
+  color: #fff;
+}
+
+.footer {
+  min-height: 20px;
+  text-align: center;
+  font-family: boldItalic;
+  font-size: 16;
+}

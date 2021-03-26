@@ -1,14 +1,18 @@
 .cityInfoContainer {
-     line-height: 60px;
-     padding-left: 20px;
-  
+  line-height: 60px;
+  padding-left: 20px;
 }
 .firstMessage {
-    font-weight: 900;
-    font-size: 35px;
-    font-family: test;
+  font-size: 50px;
+  font-family: boldItalic;
 }
 .secondMessage {
-     font-size: 20px;
-      font-family: test;
+  font-size: 20px;
+  font-family: boldItalic;
+}
+.forecast {
+  min-height: 50px;
+  padding-left: 20px;
+  font-size: 35px;
+  font-family: boldItalic;
 }
