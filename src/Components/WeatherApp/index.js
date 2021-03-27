@@ -25,6 +25,7 @@ const WeatherApp = (props) => {
                   allowPosition={props.allowPosition}
                   setCity={props.setCity}
                   flagPosition={props.flagPosition}
+                  city={props.city}
                 />
               </Col>
               <Col xs={2} sm={4} md={8} />
@@ -63,21 +64,21 @@ const WeatherApp = (props) => {
             </Col>
           </>
         ) : (
-          <>
-            <Row sty>
-              <Col xs={2} sm={4} md={8} />
-              <Col xs={20} sm={16} md={8}>
-                <CityField
-                  placeholder="EnterCity"
-                  allowPosition={props.allowPosition}
-                  setCity={props.setCity}
-                  flagPosition={props.flagPosition}
-                />
-              </Col>
-              <Col xs={2} sm={4} md={8} />
-            </Row>
-          </>
-        )}
+            <>
+              <Row sty>
+                <Col xs={2} sm={4} md={8} />
+                <Col xs={20} sm={16} md={8}>
+                  <CityField
+                    placeholder="EnterCity"
+                    allowPosition={props.allowPosition}
+                    setCity={props.setCity}
+                    flagPosition={props.flagPosition}
+                  />
+                </Col>
+                <Col xs={2} sm={4} md={8} />
+              </Row>
+            </>
+          )}
       </Content>
     </Layout>
   );

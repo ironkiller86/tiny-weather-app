@@ -15,7 +15,7 @@ import "./styles.css";
  *
  */
 const CityField = memo(
-  ({ placeholder, setCity, allowPosition, flagPosition }) => {
+  ({ placeholder, setCity, allowPosition, flagPosition, city }) => {
     console.log("CityField - function");
     const [cityField, setCityField] = useState(null);
     /**
@@ -24,8 +24,12 @@ const CityField = memo(
      */
     const onPressEnterKey = (evt) => {
       if (evt.code === "Enter" || evt.code === "NumpadEnter")
-        setCity(cityField, () => setCity(null));
+        setCity(cityField/*, () => setCity(null)*/);
     };
+    useEffect(() => {
+      console.log("CityField - useEffect city value from parent", city);
+      setCityField(city)
+    }, [city]);
     /*
      *
      */
