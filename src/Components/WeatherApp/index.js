@@ -34,10 +34,12 @@ const WeatherApp = (props) => {
             <Row>
               <Col span={24}>
                 <CityInfo
-                  firstMessage=/*"Province of Palermo, IT"*/ {
-                    props.city + " " + props.fetchedWeatherData.timezone
+                  firstMessage={
+                    props.currentWeatherData.name +
+                    ", " +
+                    props.currentWeatherData.sys.country
                   }
-                  secondMessage={props.fetchedWeatherData.current.dt}
+                  secondMessage={props.currentWeatherData.dt}
                 />
               </Col>
             </Row>
@@ -45,14 +47,10 @@ const WeatherApp = (props) => {
               <Col sm={1} md={1} lg={1} />
               <Col xs={24} sm={11} md={11} lg={11}>
                 <WeatherPanelSx
-                  temp={props.fetchedWeatherData.current.temp}
-                  description={
-                    props.fetchedWeatherData.current.weather[0].description
-                  }
-                  iconId={props.fetchedWeatherData.current.weather[0].id}
-                  mainCondition={
-                    props.fetchedWeatherData.current.weather[0].main
-                  }
+                  temp={props.currentWeatherData.main.temp}
+                  description={props.currentWeatherData.weather[0].description}
+                  iconId={props.currentWeatherData.weather[0].id}
+                  mainCondition={props.currentWeatherData.weather[0].main}
                 />
               </Col>
               <Col xs={24} sm={11} md={11} lg={11}>

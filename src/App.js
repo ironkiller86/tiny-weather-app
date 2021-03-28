@@ -17,7 +17,6 @@ function App() {
     longitude: null,
     allowPosition: false,
     enableDashboard: false,
-    fetchedForecastData: {},
     currentWeatherData: {},
     code: null,
   });
@@ -265,6 +264,7 @@ function App() {
       city={city}
       enableDashboard={enableDashboard}
       fetchedWeatherData={fetchedWeatherData}
+      currentWeatherData={currentWeatherData}
     />
   );
 }
