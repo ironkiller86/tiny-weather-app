@@ -15,7 +15,7 @@ const WeatherApp = (props) => {
   return (
     <Layout>
       <Content>
-        {true ? (
+        {props.enableDashboard ? (
           <>
             <Row>
               <Col xs={2} sm={4} md={8} />
@@ -34,7 +34,8 @@ const WeatherApp = (props) => {
             <Row>
               <Col span={24}>
                 <CityInfo
-                  firstMessage="Province of Palermo, IT"
+                  firstMessage=/*"Province of Palermo, IT"*/{props.city + ' ' +
+                    props.fetchData.timezone}
                   secondMessage="Thursday 25 March"
                 />
               </Col>
@@ -42,7 +43,8 @@ const WeatherApp = (props) => {
             <Row>
               <Col sm={1} md={1} lg={1} />
               <Col xs={24} sm={11} md={11} lg={11}>
-                <WeatherPanelSx />
+                <WeatherPanelSx temp={props.fetchData.current.temp}
+                  description={props.fetchData.current.weather[0].description} />
               </Col>
               <Col xs={24} sm={11} md={11} lg={11}>
                 <WeatherPanelDx />
@@ -65,7 +67,7 @@ const WeatherApp = (props) => {
           </>
         ) : (
             <>
-              <Row sty>
+              <Row>
                 <Col xs={2} sm={4} md={8} />
                 <Col xs={20} sm={16} md={8}>
                   <CityField
@@ -73,6 +75,7 @@ const WeatherApp = (props) => {
                     allowPosition={props.allowPosition}
                     setCity={props.setCity}
                     flagPosition={props.flagPosition}
+                    city={props.city}
                   />
                 </Col>
                 <Col xs={2} sm={4} md={8} />

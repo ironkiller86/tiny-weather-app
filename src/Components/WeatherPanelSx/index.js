@@ -4,15 +4,15 @@ import { faCloud, faCloudRain } from "@fortawesome/free-solid-svg-icons";
 /*
  *
  */
-const WeatherPanelSx = () => {
+const WeatherPanelSx = ({ temp, description }) => {
   return (
     <div className="weatherPanelSxContainer">
       <div className="iconContainer">
         <FontAwesomeIcon icon={faCloudRain} />
       </div>
       <div className="temContainer">
-        <span className="temp">13°</span>
-        <span id="weatherText">Clear sky</span>
+        <span className="temp">{temp}°</span>
+        <span id="weatherText">{description}</span>
       </div>
     </div>
   );

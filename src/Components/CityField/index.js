@@ -16,7 +16,7 @@ import "./styles.css";
  */
 const CityField = memo(
   ({ placeholder, setCity, allowPosition, flagPosition, city }) => {
-    console.log("CityField - function");
+    /* console.log("CityField - function");*/
     const [cityField, setCityField] = useState(null);
     /**
      *
