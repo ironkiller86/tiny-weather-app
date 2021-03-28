@@ -4,8 +4,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import WeatherApp from "./Components/WeatherApp";
-import { apiKey } from './apiKey'
-const host = 'http://api.openweathermap.org';
+import { apiKey } from "./apiKey";
+const host = "http://api.openweathermap.org";
 
 /*
  *
@@ -17,18 +17,23 @@ function App() {
     longitude: null,
     allowPosition: false,
     enableDashboard: false,
-    fetchData: {}
-
+    fetchedForecastData: {},
+    currentWeatherData: {},
+    code: null,
   });
   const {
     city,
     latitude,
     longitude,
     allowPosition,
-    enableDashboard, fetchData } = weatherData
+    enableDashboard,
+    fetchedWeatherData,
+    currentWeatherData,
+    code,
+  } = weatherData;
   /**
-   * 
-   * @param {*} city 
+   *
+   * @param {*} city
    */
   const setCity = (city) => {
     setWeatherData((prevState) => ({ ...prevState, city }));
@@ -39,14 +44,12 @@ function App() {
    */
   const allowCurrentPosition = (allowPosition) => {
     setWeatherData((prevState) => ({ ...prevState, allowPosition }));
-
   };
   /*
    *
    */
   const getCurrentPosition = () => {
     console.log("App - getCurrentPosition");
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -81,7 +84,7 @@ function App() {
                   `App - getCurrentPosition - Geolocation error - 
                    The attempt timed out before it could get the location data.`
                 );
-                break
+                break;
               default:
                 console.log("App - getCurrentPosition - default case");
             }
@@ -96,27 +99,16 @@ function App() {
       );
     }
   };
-
-  const fetchWeatherDataByCoordinates = (lat = null, lon = null) => {
-    fetch(`${host}/data/2.5/onecall?lat=${lat || latitude}&lon=${lon || longitude}&appid=${apiKey}&units=metric`)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        setWeatherData((prevState) => ({ ...prevState, enableDashboard: true, fetchData: { ...data } }))
-      })
-      .catch(error => {
-        console.log("App fetchWeatherDataByCoordinates - Error while get weather data by coordinates", error);
-      })
-  }
   /*
-   * 
+   *
    */
   useEffect(() => {
     /*  console.log("App usEffect -allowPosition", allowPosition);*/
     if (!allowPosition && latitude && latitude) {
       /*  console.log("App usEffect -allowPosition reset cordinates");*/
       setWeatherData((prevState) => ({
-        ...prevState, latitude: null,
+        ...prevState,
+        latitude: null,
         longitude: null,
       }));
     }
@@ -125,54 +117,133 @@ function App() {
     }
   }, [allowPosition]);
   /*
-   * 
+   *
    */
   useEffect(() => {
-    /*  console.log("App usEffect - cordinates found",);*/
+    console.log("App usEffect - cordinates found");
     if (latitude && longitude) {
+      let cityName = null;
       /*   console.log("App usEffect - make http request for field city");*/
-      fetch(`${host}/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => setWeatherData((prevState) => ({ ...prevState, city: data[0].name })))
-        .catch(error => {
-          console.log("App useEffect -Error -unable to get city name from coordinates ", error);
+      fetch(
+        `${host}/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          cityName = data[0].name;
+          console.log(cityName);
         })
+        .then(() => {
+          fetch(
+            `${host}/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=it`
+          )
+            .then((response) => response.json())
+            .then((data) =>
+              setWeatherData((prevState) => ({
+                ...prevState,
+                /* enableDashboard: true,*/
+                currentWeatherData: { ...data },
+                city: cityName,
+              }))
+            );
+        })
+        /* setWeatherData((prevState) => ({ ...prevState, city: data[0].name }))
+        )*/
+        .catch((error) => {
+          console.log(
+            "App useEffect -Error -unable to get city name from coordinates ",
+            error
+          );
+        });
     }
   }, [latitude, longitude]);
   /*
- * 
- */
+   *
+   */
   useEffect(() => {
     console.log("App usEffect - city ");
-    if (latitude && longitude) {
+    let currentWeather = null;
+    if (city) {
+      fetch(
+        `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>current", data);
+          if (data?.cod === "404") {
+            setWeatherData((prevState) => ({
+              ...prevState,
+              enableDashboard: false,
+              code: data.cod,
+            }));
+            throw new Error();
+          }
+          currentWeather = { ...data };
+        })
+        .then(() => {
+          fetch(
+            `${host}/data/2.5/onecall?lat=${currentWeather.coord.lat}&lon=${currentWeather.coord.lon}&appid=${apiKey}&units=metric&lang=it`
+          )
+            .then((response) => response.json())
+            .then((forecast) => {
+              console.log(">>>>>>>>>>>>>>>>>>>>>>>>> forecast", forecast);
+              setWeatherData((prevState) => ({
+                ...prevState,
+                enableDashboard: true,
+                currentWeatherData: { ...currentWeather },
+                fetchedWeatherData: { ...forecast },
+                code: null,
+              }));
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    /*   if (latitude && longitude) {
       console.log("App usEffect - city  make http call to API by coordinate");
       fetchWeatherDataByCoordinates();
     }
     else if (city) {
-      let coordinates = { lat: null, lon: null }
+      let coordinates = { lat: null, lon: null };
       fetch(`${host}/geo/1.0/direct?q=${city}&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
           if (data.length > 0) {
-            coordinates.lat = data[0]?.lat
-            coordinates.lon = data[0]?.lon
+            coordinates.lat = data[0]?.lat;
+            coordinates.lon = data[0]?.lon;
           }
-        }).then(() => {
+        })
+        .then(() => {
           if (coordinates.lat && coordinates.lon) {
             fetchWeatherDataByCoordinates(coordinates.lat, coordinates.lon);
-          }
-          else {
-            console.log("App useEffect - city not found")
+          } else {
+            console.log("App useEffect - city not found");
           }
         })
-        .catch(error => {
-          console.log("App useEffect -Error -Error while get weather data", error);
+        .then(() => {
+          fetch(
+            `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
+          )
+            .then((response) => response.json())
+            .then((data) =>
+              setWeatherData((prevState) => ({
+                ...prevState,
+                currentWeatherData: { ...data },
+              }))
+            );
         })
-    }
+        .catch((error) => {
+          console.log(
+            "App useEffect -Error -Error while get weather data",
+            error
+          );
+        });
+    }*/
   }, [city]);
   /*
-   * 
+   *
    */
   useEffect(() => {
     console.log("App usEffect - global state", weatherData);
@@ -181,7 +252,7 @@ function App() {
    *
    */
   useEffect(() => {
-    console.log("App usEffect as componentDidMount");
+    /* console.log("App usEffect as componentDidMount");*/
   }, []);
   /*
    *
@@ -193,7 +264,7 @@ function App() {
       setCity={setCity}
       city={city}
       enableDashboard={enableDashboard}
-      fetchData={fetchData}
+      fetchedWeatherData={fetchedWeatherData}
     />
   );
 }
