@@ -54,7 +54,7 @@ const WeatherApp = (props) => {
                 />
               </Col>
               <Col xs={24} sm={11} md={11} lg={11}>
-                <WeatherPanelDx />
+                <WeatherPanelDx currentWeatherData={props.currentWeatherData} />
               </Col>
               <Col sm={1} md={1} lg={1} />
             </Row>
