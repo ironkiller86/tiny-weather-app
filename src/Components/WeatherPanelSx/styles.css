@@ -30,3 +30,15 @@
   height: 50%;
   flex: 50%;
 }
+@media screen and (min-width: 200px) and (max-width: 500px) {
+  .temp {
+    font-size: 50px;
+  }
+  #weatherText {
+    font-size: 20px;
+  }
+  .iconContainer {
+    font-size: 80px;
+    padding-top: 0;
+  }
+}

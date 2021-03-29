@@ -1,10 +1,19 @@
 .ant-layout-content {
   color: #fff;
 }
-
+.forecast {
+  margin-top: 15px;
+}
 .footer {
+  color: gray;
   min-height: 20px;
   text-align: center;
   font-family: boldItalic;
   font-size: 16;
+}
+@media screen and (min-width: 200px) and (max-width: 500px) {
+  .forecast {
+    font-size: 22px;
+    margin-top: 10px;
+  }
 }

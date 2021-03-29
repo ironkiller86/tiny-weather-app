@@ -35,7 +35,15 @@ function App() {
    * @param {*} city
    */
   const setCity = (city) => {
-    setWeatherData((prevState) => ({ ...prevState, city }));
+    if (city?.length > 0) {
+      setWeatherData((prevState) => ({ ...prevState, city }));
+    } else {
+      setWeatherData((prevState) => ({
+        ...prevState,
+        enableDashboard: false,
+        code: "404",
+      }));
+    }
   };
   /**
    *
@@ -102,9 +110,7 @@ function App() {
    *
    */
   useEffect(() => {
-    /*  console.log("App usEffect -allowPosition", allowPosition);*/
     if (!allowPosition && latitude && latitude) {
-      /*  console.log("App usEffect -allowPosition reset cordinates");*/
       setWeatherData((prevState) => ({
         ...prevState,
         latitude: null,
@@ -139,14 +145,11 @@ function App() {
             .then((data) =>
               setWeatherData((prevState) => ({
                 ...prevState,
-                /* enableDashboard: true,*/
                 currentWeatherData: { ...data },
                 city: cityName,
               }))
             );
         })
-        /* setWeatherData((prevState) => ({ ...prevState, city: data[0].name }))
-        )*/
         .catch((error) => {
           console.log(
             "App useEffect -Error -unable to get city name from coordinates ",
@@ -198,48 +201,6 @@ function App() {
           console.log(error);
         });
     }
-
-    /*   if (latitude && longitude) {
-      console.log("App usEffect - city  make http call to API by coordinate");
-      fetchWeatherDataByCoordinates();
-    }
-    else if (city) {
-      let coordinates = { lat: null, lon: null };
-      fetch(`${host}/geo/1.0/direct?q=${city}&appid=${apiKey}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          if (data.length > 0) {
-            coordinates.lat = data[0]?.lat;
-            coordinates.lon = data[0]?.lon;
-          }
-        })
-        .then(() => {
-          if (coordinates.lat && coordinates.lon) {
-            fetchWeatherDataByCoordinates(coordinates.lat, coordinates.lon);
-          } else {
-            console.log("App useEffect - city not found");
-          }
-        })
-        .then(() => {
-          fetch(
-            `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
-          )
-            .then((response) => response.json())
-            .then((data) =>
-              setWeatherData((prevState) => ({
-                ...prevState,
-                currentWeatherData: { ...data },
-              }))
-            );
-        })
-        .catch((error) => {
-          console.log(
-            "App useEffect -Error -Error while get weather data",
-            error
-          );
-        });
-    }*/
   }, [city]);
   /*
    *
@@ -250,9 +211,7 @@ function App() {
   /*
    *
    */
-  useEffect(() => {
-    /* console.log("App usEffect as componentDidMount");*/
-  }, []);
+  useEffect(() => {}, []);
   /*
    *
    */
@@ -265,6 +224,7 @@ function App() {
       enableDashboard={enableDashboard}
       fetchedWeatherData={fetchedWeatherData}
       currentWeatherData={currentWeatherData}
+      code={code}
     />
   );
 }

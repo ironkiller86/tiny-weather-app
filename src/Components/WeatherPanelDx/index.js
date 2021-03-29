@@ -5,31 +5,11 @@ import "./styles.css";
 /*
  *
  */
-const fakeWeatherData = [
-  { data: "15°", label: "Hight" },
-  { data: "0.48 mph", label: "Wind" },
-  { data: "06:00°", label: "Sunrise" },
-  { data: "10°", label: "Low" },
-  { data: "48%", label: "Rain" },
-  { data: "18:23", label: "Sunset" },
-];
-
-/*let {
-  temp_max = null,
-  tem_min = null,
-  pressure = null,
-} = props?.currentWeatherData?.main;
-const dataWeatherPanelDx = {
-  temp_max,
-  tem_min,
-  pressure,
-  sunrise: props.currentWeatherData.sys.sunrise,
-  sunset: props.currentWeatherData.sys.sunset,
-};*/
-
 const WeatherPanelDx = ({ currentWeatherData }) => {
   const [currentData, setCurrentData] = useState([]);
-
+  /*
+   *
+   */
   useEffect(() => {
     let {
       temp_max = null,
@@ -57,7 +37,7 @@ const WeatherPanelDx = ({ currentWeatherData }) => {
         data: getLocalData(dataWeatherPanelDx.sunrise, { timeString: true }),
       },
       { label: "Temp min", data: dataWeatherPanelDx.temp_min + " °" },
-      { label: "Vento", data: dataWeatherPanelDx.windSpeed },
+      { label: "Vento", data: dataWeatherPanelDx.windSpeed + " ms" },
       {
         label: "Tramonto",
         data: getLocalData(dataWeatherPanelDx.sunset, { timeString: true }),

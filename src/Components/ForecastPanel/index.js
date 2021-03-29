@@ -1,21 +1,18 @@
 import "./styles.css";
 import ForecastCard from "./ForecastCard";
-
 /*
  *
  */
-const ForecastPanel = () => {
+const ForecastPanel = ({ forecastWeather }) => {
+  const { hourly } = forecastWeather;
+  /*
+   *
+   */
   return (
     <div className="forecastPanelContainer">
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
-      <ForecastCard />
+      {hourly.map((data, index) => (
+        <ForecastCard key={index} data={data} />
+      ))}
     </div>
   );
 };

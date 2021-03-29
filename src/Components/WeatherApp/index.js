@@ -1,4 +1,4 @@
-import { Layout, Row, Col } from "antd";
+import { Layout, Row, Col, Alert } from "antd";
 import CityField from "../CityField";
 import CityInfo from "../CityInfo";
 import WeatherPanelDx from "../WeatherPanelDx";
@@ -60,12 +60,12 @@ const WeatherApp = (props) => {
             </Row>
             <Row>
               <Col span={24}>
-                <div className="forecast">Forecast</div>
+                <div className="forecast">Previsioni prossime 48 ore</div>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <ForecastPanel />
+                <ForecastPanel forecastWeather={props.fetchedWeatherData} />
               </Col>
             </Row>
             <Col span={24}>
@@ -85,8 +85,27 @@ const WeatherApp = (props) => {
                   city={props.city}
                 />
               </Col>
+
               <Col xs={2} sm={4} md={8} />
             </Row>
+            {props.code ? (
+              <Row>
+                <Col xs={2} sm={4} md={8} />
+                <Col xs={20} sm={16} md={8}>
+                  <Alert
+                    style={{
+                      borderRadius: 15,
+                      opacity: 0.8,
+                    }}
+                    message="Ops"
+                    description={"Località non trovata"}
+                    type="warning"
+                    showIcon
+                  />
+                </Col>
+                <Col xs={2} sm={4} md={8} />
+              </Row>
+            ) : null}
           </>
         )}
       </Content>
