@@ -1,6 +1,5 @@
 import "./styles.css";
 import ForecastCard from "./ForecastCard";
-const currentTimestamp = Date.now();
 /*
  *
  */

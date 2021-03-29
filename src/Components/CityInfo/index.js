@@ -4,6 +4,7 @@ import { getLocalData } from "../../utils";
  *
  */
 const CityInfo = ({ firstMessage, secondMessage }) => {
+
   return (
     <div className="cityInfoContainer">
       <div className="firstMessage">{firstMessage}</div>

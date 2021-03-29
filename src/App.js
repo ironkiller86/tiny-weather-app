@@ -56,7 +56,6 @@ function App() {
    *
    */
   const getCurrentPosition = () => {
-    console.log("App - getCurrentPosition");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -125,17 +124,15 @@ function App() {
    *
    */
   useEffect(() => {
-    console.log("App usEffect - cordinates found");
     if (latitude && longitude) {
       let cityName = null;
-      /*   console.log("App usEffect - make http request for field city");*/
       fetch(
         `${host}/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
       )
         .then((response) => response.json())
         .then((data) => {
           cityName = data[0].name;
-          console.log(cityName);
+
         })
         .then(() => {
           fetch(
@@ -162,9 +159,7 @@ function App() {
    *
    */
   useEffect(() => {
-    console.log("App usEffect - city ");
     let currentWeather = null;
-
     if (city) {
       if (navigator.onLine) {
         fetch(
@@ -172,7 +167,7 @@ function App() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>current", data);
+
             if (data?.cod === "404") {
               setWeatherData((prevState) => ({
                 ...prevState,
@@ -189,7 +184,6 @@ function App() {
             )
               .then((response) => response.json())
               .then((forecast) => {
-                console.log(">>>>>>>>>>>>>>>>>>>>>>>>> forecast", forecast);
                 setWeatherData((prevState) => ({
                   ...prevState,
                   enableDashboard: true,
@@ -215,7 +209,6 @@ function App() {
    *
    */
   useEffect(() => {
-    console.log("App usEffect - global state", weatherData);
   }, [weatherData]);
   /*
    *

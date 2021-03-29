@@ -6,6 +6,7 @@ import "./styles.css";
  *
  */
 const WeatherPanelDx = ({ currentWeatherData }) => {
+
   const [currentData, setCurrentData] = useState([]);
   /*
    *
@@ -24,7 +25,6 @@ const WeatherPanelDx = ({ currentWeatherData }) => {
       sunset: currentWeatherData.sys.sunset,
       windSpeed: currentWeatherData.wind.speed,
     };
-    console.log(dataWeatherPanelDx);
     let weatherDataArray = [];
     weatherDataArray.push(
       {
@@ -45,11 +45,14 @@ const WeatherPanelDx = ({ currentWeatherData }) => {
     );
     setCurrentData(weatherDataArray);
   }, [currentWeatherData]);
-
+  /*
+   * 
+   */
   useEffect(() => {
-    console.log(currentData);
   }, [currentData]);
-
+  /*
+   * 
+   */
   return (
     <div className="weatherPanelDxContainer">
       {currentData.map(({ data, label }, index) => (

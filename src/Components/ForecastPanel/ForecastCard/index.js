@@ -5,6 +5,9 @@ import { getLocalData } from "../../../utils";
  *
  */
 const ForecastCard = ({ data }) => {
+  /*
+   * 
+   */
   return (
     <div className="forecastCardContainer">
       <div className="cardHeader">

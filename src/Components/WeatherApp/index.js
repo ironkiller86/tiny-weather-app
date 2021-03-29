@@ -5,6 +5,7 @@ import WeatherPanelDx from "../WeatherPanelDx";
 import WeatherPanelSx from "../WeatherPanelSx";
 import ForecastPanel from "../ForecastPanel";
 import "./styles.css";
+import { memo } from "react";
 
 const { Content } = Layout;
 /**
@@ -12,7 +13,9 @@ const { Content } = Layout;
  * @returns
  */
 const WeatherApp = (props) => {
-  const { currentWeatherData } = props
+  const { currentWeatherData, code } = props
+
+
   /*
    * 
    */
@@ -20,11 +23,12 @@ const WeatherApp = (props) => {
     <Layout>
       <Content>
         {props.enableDashboard ? (
-          <>
+          <>￼
             <Row>
               <Col xs={2} sm={4} md={8} />
               <Col xs={20} sm={16} md={8}>
                 <CityField
+                  setCurrentPositionSwitch={props.allowPosition}
                   placeholder="EnterCity"
                   allowPosition={props.allowPosition}
                   setCity={props.setCity}
@@ -102,7 +106,7 @@ const WeatherApp = (props) => {
                         opacity: 0.8,
                       }}
                       message="Ops"
-                      description={props.code === 404 ?
+                      description={props.code === '404' ?
                         "Località non trovata" :
                         "Connessione alla Rete assente"}
                       type="warning"
@@ -118,5 +122,7 @@ const WeatherApp = (props) => {
     </Layout>
   );
 };
-
+/*
+ * 
+ */
 export default WeatherApp;
