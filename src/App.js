@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import WeatherApp from "./Components/WeatherApp";
 import { apiKey } from "./apiKey";
-const host = "http://api.openweathermap.org";
+const host = "https://api.openweathermap.org";
 
 /*
  *

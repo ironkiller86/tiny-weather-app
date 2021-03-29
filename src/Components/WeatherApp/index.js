@@ -5,7 +5,7 @@ import WeatherPanelDx from "../WeatherPanelDx";
 import WeatherPanelSx from "../WeatherPanelSx";
 import ForecastPanel from "../ForecastPanel";
 import "./styles.css";
-import { memo } from "react";
+
 
 const { Content } = Layout;
 /**
@@ -93,7 +93,6 @@ const WeatherApp = (props) => {
                     city={props.city}
                   />
                 </Col>
-
                 <Col xs={2} sm={4} md={8} />
               </Row>
               {props.code ? (
