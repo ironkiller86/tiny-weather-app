@@ -29,14 +29,14 @@ const WeatherPanelDx = ({ currentWeatherData }) => {
     weatherDataArray.push(
       {
         label: "Temp max",
-        data: dataWeatherPanelDx.temp_max + " °",
+        data: dataWeatherPanelDx.temp_max.toFixed(1) + " °",
       },
       { label: "Press Atm ", data: dataWeatherPanelDx.pressure + " hPa" },
       {
         label: "Alba",
         data: getLocalData(dataWeatherPanelDx.sunrise, { timeString: true }),
       },
-      { label: "Temp min", data: dataWeatherPanelDx.temp_min + " °" },
+      { label: "Temp min", data: dataWeatherPanelDx.temp_min.toFixed(1) + " °" },
       { label: "Vento", data: dataWeatherPanelDx.windSpeed + " ms" },
       {
         label: "Tramonto",

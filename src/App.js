@@ -164,43 +164,52 @@ function App() {
   useEffect(() => {
     console.log("App usEffect - city ");
     let currentWeather = null;
+
     if (city) {
-      fetch(
-        `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>current", data);
-          if (data?.cod === "404") {
-            setWeatherData((prevState) => ({
-              ...prevState,
-              enableDashboard: false,
-              code: data.cod,
-            }));
-            throw new Error();
-          }
-          currentWeather = { ...data };
-        })
-        .then(() => {
-          fetch(
-            `${host}/data/2.5/onecall?lat=${currentWeather.coord.lat}&lon=${currentWeather.coord.lon}&appid=${apiKey}&units=metric&lang=it`
-          )
-            .then((response) => response.json())
-            .then((forecast) => {
-              console.log(">>>>>>>>>>>>>>>>>>>>>>>>> forecast", forecast);
+      if (navigator.onLine) {
+        fetch(
+          `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>current", data);
+            if (data?.cod === "404") {
               setWeatherData((prevState) => ({
                 ...prevState,
-                enableDashboard: true,
-                currentWeatherData: { ...currentWeather },
-                fetchedWeatherData: { ...forecast },
-                code: null,
+                enableDashboard: false,
+                code: data.cod,
               }));
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+              throw new Error();
+            }
+            currentWeather = { ...data };
+          })
+          .then(() => {
+            fetch(
+              `${host}/data/2.5/onecall?lat=${currentWeather.coord.lat}&lon=${currentWeather.coord.lon}&appid=${apiKey}&units=metric&lang=it`
+            )
+              .then((response) => response.json())
+              .then((forecast) => {
+                console.log(">>>>>>>>>>>>>>>>>>>>>>>>> forecast", forecast);
+                setWeatherData((prevState) => ({
+                  ...prevState,
+                  enableDashboard: true,
+                  currentWeatherData: { ...currentWeather },
+                  fetchedWeatherData: { ...forecast },
+                  code: null,
+                }));
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        setWeatherData((prevState) => ({
+          ...prevState,
+          code: '1000',
+        }));
+      }
     }
+
   }, [city]);
   /*
    *
@@ -211,7 +220,9 @@ function App() {
   /*
    *
    */
-  useEffect(() => {}, []);
+  useEffect(() => {
+
+  }, []);
   /*
    *
    */

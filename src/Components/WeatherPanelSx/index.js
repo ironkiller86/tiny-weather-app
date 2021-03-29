@@ -1,4 +1,5 @@
 import "./styles.css";
+import { useCallback } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCloud,
@@ -17,7 +18,7 @@ const WeatherPanelSx = ({ temp, description, iconId, mainCondition }) => {
    *
    * @returns
    */
-  const handlerWeatherIcons = () => {
+  const handlerWeatherIcons = useCallback(() => {
     switch (mainCondition) {
       case "Clear":
         return faSun;
@@ -34,7 +35,7 @@ const WeatherPanelSx = ({ temp, description, iconId, mainCondition }) => {
       default:
         return faSmog;
     }
-  };
+  });
   /*
    *
    */
@@ -44,7 +45,7 @@ const WeatherPanelSx = ({ temp, description, iconId, mainCondition }) => {
         <FontAwesomeIcon icon={handlerWeatherIcons()} />
       </div>
       <div className="temContainer">
-        <span className="temp">{temp}°</span>
+        <span className="temp">{temp.toFixed(1)}°</span>
         <span id="weatherText">{description}</span>
       </div>
     </div>

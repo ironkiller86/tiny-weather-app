@@ -12,6 +12,10 @@ const { Content } = Layout;
  * @returns
  */
 const WeatherApp = (props) => {
+  const { currentWeatherData } = props
+  /*
+   * 
+   */
   return (
     <Layout>
       <Content>
@@ -35,9 +39,9 @@ const WeatherApp = (props) => {
               <Col span={24}>
                 <CityInfo
                   firstMessage={
-                    props.currentWeatherData.name +
+                    currentWeatherData.name +
                     ", " +
-                    props.currentWeatherData.sys.country
+                    currentWeatherData.sys.country
                   }
                   secondMessage={props.currentWeatherData.dt}
                 />
@@ -47,14 +51,14 @@ const WeatherApp = (props) => {
               <Col sm={1} md={1} lg={1} />
               <Col xs={24} sm={11} md={11} lg={11}>
                 <WeatherPanelSx
-                  temp={props.currentWeatherData.main.temp}
-                  description={props.currentWeatherData.weather[0].description}
-                  iconId={props.currentWeatherData.weather[0].id}
-                  mainCondition={props.currentWeatherData.weather[0].main}
+                  temp={currentWeatherData.main.temp}
+                  description={currentWeatherData.weather[0].description}
+                  iconId={currentWeatherData.weather[0].id}
+                  mainCondition={currentWeatherData.weather[0].main}
                 />
               </Col>
               <Col xs={24} sm={11} md={11} lg={11}>
-                <WeatherPanelDx currentWeatherData={props.currentWeatherData} />
+                <WeatherPanelDx currentWeatherData={currentWeatherData} />
               </Col>
               <Col sm={1} md={1} lg={1} />
             </Row>
@@ -73,41 +77,43 @@ const WeatherApp = (props) => {
             </Col>
           </>
         ) : (
-          <>
-            <Row>
-              <Col xs={2} sm={4} md={8} />
-              <Col xs={20} sm={16} md={8}>
-                <CityField
-                  placeholder="EnterCity"
-                  allowPosition={props.allowPosition}
-                  setCity={props.setCity}
-                  flagPosition={props.flagPosition}
-                  city={props.city}
-                />
-              </Col>
-
-              <Col xs={2} sm={4} md={8} />
-            </Row>
-            {props.code ? (
+            <>
               <Row>
                 <Col xs={2} sm={4} md={8} />
                 <Col xs={20} sm={16} md={8}>
-                  <Alert
-                    style={{
-                      borderRadius: 15,
-                      opacity: 0.8,
-                    }}
-                    message="Ops"
-                    description={"Località non trovata"}
-                    type="warning"
-                    showIcon
+                  <CityField
+                    placeholder="EnterCity"
+                    allowPosition={props.allowPosition}
+                    setCity={props.setCity}
+                    flagPosition={props.flagPosition}
+                    city={props.city}
                   />
                 </Col>
+
                 <Col xs={2} sm={4} md={8} />
               </Row>
-            ) : null}
-          </>
-        )}
+              {props.code ? (
+                <Row>
+                  <Col xs={2} sm={4} md={8} />
+                  <Col xs={20} sm={16} md={8}>
+                    <Alert
+                      style={{
+                        borderRadius: 15,
+                        opacity: 0.8,
+                      }}
+                      message="Ops"
+                      description={props.code === 404 ?
+                        "Località non trovata" :
+                        "Connessione alla Rete assente"}
+                      type="warning"
+                      showIcon
+                    />
+                  </Col>
+                  <Col xs={2} sm={4} md={8} />
+                </Row>
+              ) : null}
+            </>
+          )}
       </Content>
     </Layout>
   );

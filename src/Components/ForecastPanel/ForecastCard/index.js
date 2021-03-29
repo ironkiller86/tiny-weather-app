@@ -25,7 +25,7 @@ const ForecastCard = ({ data }) => {
           />
         </Tooltip>
       </div>
-      <div className="cardFooter">{data.temp} °</div>
+      <div className="cardFooter">{data.temp.toFixed(1)} °</div>
     </div>
   );
 };
