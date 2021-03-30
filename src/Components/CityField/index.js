@@ -15,41 +15,44 @@ import "./styles.css";
  *
  */
 const CityField = memo(
-  ({ placeholder, setCity, allowPosition, flagPosition, city, }) => {
+  ({ placeholder, setCity, allowPosition, flagPosition, city }) => {
     const [cityField, setCityField] = useState(null);
     /**
      *
      * @param {*} evt
      */
     const onPressEnterKey = (evt) => {
-      if (evt.code === "Enter" || evt.code === "NumpadEnter")
-        setCity(cityField);
+      evt.preventDefault();
+      /* if (evt.code === "Enter" || evt.code === "NumpadEnter")*/
+      setCity(cityField);
     };
+    /*};*/
     const hanlderCityField = (evt) => {
       if (flagPosition) {
-        allowPosition(false)
+        allowPosition(false);
       }
       setCityField(evt.target.value);
-
-    }
+    };
 
     useEffect(() => {
-      setCityField(city)
+      setCityField(city);
     }, [city]);
     /*
      *
      */
     return (
       <div className="cityFieldContainer">
-        <Input
-          onChange={hanlderCityField}
-          value={cityField}
-          className="cityField"
-          size="large"
-          placeholder={placeholder}
-          prefix={<SearchOutlined />}
-          onKeyDown={onPressEnterKey}
-        />
+        <form onSubmit={onPressEnterKey} style={{ width: "100%" }}>
+          <Input
+            onChange={hanlderCityField}
+            value={cityField}
+            className="cityField"
+            size="large"
+            placeholder={placeholder}
+            prefix={<SearchOutlined />}
+            /* onKeyDown={onPressEnterKey}*/
+          />
+        </form>
         <Popover content={<span>Usa la tua posizione corrente</span>}>
           <Switch
             style={{ marginLeft: 10 }}

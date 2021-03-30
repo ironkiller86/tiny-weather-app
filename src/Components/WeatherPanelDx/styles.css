@@ -9,8 +9,15 @@
   opacity: 0.4;
   max-width: 700px;
 }
+@media screen and (min-width: 500px) and (max-width: 998px) {
+  .weatherPanelDxContainer {
+    max-width: none;
+    margin: 5px 5px;
+  }
+}
 @media screen and (min-width: 200px) and (max-width: 500px) {
   .weatherPanelDxContainer {
     margin: 5px 5px;
+    padding: 0px;
   }
 }
