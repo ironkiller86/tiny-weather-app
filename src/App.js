@@ -109,17 +109,17 @@ function App() {
    *
    */
   useEffect(() => {
-    if (!allowPosition && latitude && latitude) {
+    if (!allowPosition && latitude && longitude) {
       setWeatherData((prevState) => ({
         ...prevState,
         latitude: null,
         longitude: null,
       }));
     }
-    if (allowPosition && !latitude && !latitude) {
+    if (allowPosition && !latitude && !longitude) {
       getCurrentPosition();
     }
-  }, [allowPosition]);
+  }, [allowPosition, latitude, longitude]);
   /*
    *
    */

@@ -17,6 +17,7 @@ const ForecastPanel = ({ forecastWeather }) => {
           time = 0;
           return (< ForecastCard key={index} data={data} />)
         }
+        return null
       })}
     </div>
   );

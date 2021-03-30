@@ -13,7 +13,7 @@ import {
 /*
  *
  */
-const WeatherPanelSx = ({ temp, description, iconId, mainCondition }) => {
+const WeatherPanelSx = ({ temp, description, mainCondition }) => {
   /*
    *
    * @returns
@@ -35,7 +35,7 @@ const WeatherPanelSx = ({ temp, description, iconId, mainCondition }) => {
       default:
         return faSmog;
     }
-  });
+  }, [mainCondition]);
   /*
    *
    */
