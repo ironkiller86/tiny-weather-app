@@ -15,8 +15,9 @@ import "./styles.css";
  *
  */
 const CityField = memo(
-  ({ placeholder, setCity, allowPosition, flagPosition, city }) => {
+  ({ placeholder, setCity, allowPosition, flagPosition, city, currentWeatherData, code }) => {
     const [cityField, setCityField] = useState(null);
+    console.log(currentWeatherData)
     /**
      *
      * @param {*} evt
@@ -41,7 +42,7 @@ const CityField = memo(
      *
      */
     return (
-      <div className="cityFieldContainer">
+      <div className={"cityFieldContainer"} style={Object.keys(currentWeatherData)?.length > 0 || code ? { animationName: 'example' } : {}}>
         <form onSubmit={onPressEnterKey} style={{ width: "100%" }}>
           <Input
             onChange={hanlderCityField}
@@ -50,7 +51,7 @@ const CityField = memo(
             size="large"
             placeholder={placeholder}
             prefix={<SearchOutlined />}
-            /* onKeyDown={onPressEnterKey}*/
+          /* onKeyDown={onPressEnterKey}*/
           />
         </form>
         <Popover content={<span>Usa la tua posizione corrente</span>}>
@@ -60,7 +61,7 @@ const CityField = memo(
             checked={flagPosition}
           />
         </Popover>
-      </div>
+      </div >
     );
   }
 );
