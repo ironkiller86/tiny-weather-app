@@ -24,6 +24,9 @@ const WeatherApp = (props) => {
           <Col xs={2} sm={5} md={7} lg={7} xl={8} xxl={8} />
           <Col xs={20} sm={14} md={10} lg={10} xl={8} xxl={8}>
             <CityField
+              getCurrentPosition={props.getCurrentPosition}
+              setEnableAnimation={props.setEnableAnimation}
+              enableAnimation={props.enableAnimation}
               setCurrentPositionSwitch={props.allowPosition}
               placeholder="EnterCity"
               allowPosition={props.allowPosition}
@@ -36,7 +39,7 @@ const WeatherApp = (props) => {
           </Col>
           <Col xs={2} sm={5} md={7} lg={7} xl={8} xxl={8} />
         </Row>
-        {props.enableDashboard ?
+        {props?.code?.status === '200' ?
           <>
             <Row>
               <Col span={24}>
@@ -78,28 +81,28 @@ const WeatherApp = (props) => {
             <Col span={24}>
               <div className="footer">Made by Tuzzolino Donato</div>
             </Col>
-          </> : null
+          </> : props?.code?.status === '404' || props?.code?.status === '1000' ?
+            <Row>
+              <Col xs={2} sm={4} md={8} />
+              <Col xs={20} sm={18} md={8}>
+                <Alert
+                  style={{
+                    borderRadius: 15,
+                    opacity: 0.8,
+                  }}
+                  message="Ops"
+                  description={
+                    props.code.status === "404"
+                      ? "Località non trovata"
+                      : "Connessione alla Rete assente"
+                  }
+                  type="warning"
+                  showIcon
+                />
+              </Col>
+              <Col xs={2} sm={4} md={8} />
+            </Row> : null
         }
-        {/*   <Row>
-          <Col xs={2} sm={4} md={8} />
-          <Col xs={20} sm={18} md={8}>
-            <Alert
-              style={{
-                borderRadius: 15,
-                opacity: 0.8,
-              }}
-              message="Ops"
-              description={
-                props.code === "404"
-                  ? "Località non trovata"
-                  : "Connessione alla Rete assente"
-              }
-              type="warning"
-              showIcon
-            />
-          </Col>
-          <Col xs={2} sm={4} md={8} />
-        </Row>**/ }
       </Content>
     </Layout>
   );

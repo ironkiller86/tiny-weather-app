@@ -1,25 +1,20 @@
 .cityField {
-    max-height: 50px;
-    border-radius: 20px;
+  max-height: 50px;
+  border-radius: 20px;
 }
-.cityFieldContainer  {
-    position: relative;
-    top:300px;
-    min-height: 200px;
-    display: flex;
-    align-items: center;
-   animation-fill-mode:forwards;
+.cityFieldContainer {
+  position: relative;
+  top: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  animation-fill-mode: forwards;
   animation-duration: 1s;
 }
-.cityFieldContainer:after  {
-    position: relative;
-    top:10px;
-  
-}
-
-
 
 @keyframes example {
-  0%   { left:0px; top:300px;}
-  100% { left:0px; top:10px;}
+  100% {
+    left: 0px;
+    top: 10px;
+  }
 }

@@ -15,26 +15,60 @@ import "./styles.css";
  *
  */
 const CityField = memo(
-  ({ placeholder, setCity, allowPosition, flagPosition, city, currentWeatherData, code }) => {
+  ({ getCurrentPosition,
+    placeholder,
+    setCity,
+    allowPosition,
+    flagPosition,
+    city,
+    currentWeatherData,
+    code,
+    enableAnimation,
+    setEnableAnimation }) => {
     const [cityField, setCityField] = useState(null);
     console.log(currentWeatherData)
-    /**
+    /*
+     * 
+     */
+    const handlerSwitch = () => {
+      allowPosition(!flagPosition)
+      setEnableAnimation(true)
+    }
+    /*
+     * 
+     */
+    const handlerAnimationEnd = () => {
+      if (flagPosition) {
+        getCurrentPosition()
+      } else {
+        setCity(cityField)
+      }
+    }
+    /*
      *
      * @param {*} evt
      */
     const onPressEnterKey = (evt) => {
       evt.preventDefault();
-      /* if (evt.code === "Enter" || evt.code === "NumpadEnter")*/
-      setCity(cityField);
+      if (enableAnimation) {
+        setCity(cityField)
+      } else {
+        setEnableAnimation(true)
+      }
     };
-    /*};*/
+    /**
+     * 
+     * @param {*} evt 
+     */
     const hanlderCityField = (evt) => {
       if (flagPosition) {
         allowPosition(false);
       }
       setCityField(evt.target.value);
     };
-
+    /*
+     * 
+     */
     useEffect(() => {
       setCityField(city);
     }, [city]);
@@ -42,7 +76,8 @@ const CityField = memo(
      *
      */
     return (
-      <div className={"cityFieldContainer"} style={Object.keys(currentWeatherData)?.length > 0 || code ? { animationName: 'example' } : {}}>
+      <div onAnimationEnd={handlerAnimationEnd} className={"cityFieldContainer"}
+        style={enableAnimation ? { animationName: 'example' } : {}}>
         <form onSubmit={onPressEnterKey} style={{ width: "100%" }}>
           <Input
             onChange={hanlderCityField}
@@ -51,17 +86,16 @@ const CityField = memo(
             size="large"
             placeholder={placeholder}
             prefix={<SearchOutlined />}
-          /* onKeyDown={onPressEnterKey}*/
           />
         </form>
         <Popover content={<span>Usa la tua posizione corrente</span>}>
           <Switch
             style={{ marginLeft: 10 }}
-            onChange={(checked) => allowPosition(checked)}
+            onChange={handlerSwitch}
             checked={flagPosition}
           />
         </Popover>
-      </div >
+      </div>
     );
   }
 );

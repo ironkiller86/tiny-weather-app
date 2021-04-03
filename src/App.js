@@ -16,7 +16,7 @@ function App() {
     latitude: null,
     longitude: null,
     allowPosition: false,
-    enableDashboard: false,
+    enableAnimation: false,
     currentWeatherData: {},
     code: null,
   });
@@ -25,11 +25,21 @@ function App() {
     latitude,
     longitude,
     allowPosition,
-    enableDashboard,
+    enableAnimation,
     fetchedWeatherData,
     currentWeatherData,
     code,
   } = weatherData;
+  /**
+   * 
+   * @param {*} animationFlag 
+   */
+  const setEnableAnimation = (animationFlag) => {
+    setWeatherData((prevState) => ({
+      ...prevState,
+      enableAnimation: animationFlag
+    }));
+  }
   /**
    *
    * @param {*} city
@@ -40,8 +50,7 @@ function App() {
     } else {
       setWeatherData((prevState) => ({
         ...prevState,
-        enableDashboard: false,
-        code: "404",
+        code: { status: "404" },
       }));
     }
   };
@@ -116,9 +125,6 @@ function App() {
         longitude: null,
       }));
     }
-    if (allowPosition && !latitude && !longitude) {
-      getCurrentPosition();
-    }
   }, [allowPosition, latitude, longitude]);
   /*
    *
@@ -132,7 +138,6 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           cityName = data[0].name;
-
         })
         .then(() => {
           fetch(
@@ -171,8 +176,7 @@ function App() {
             if (data?.cod === "404") {
               setWeatherData((prevState) => ({
                 ...prevState,
-                enableDashboard: false,
-                code: data.cod,
+                code: { status: "404" },
               }));
               throw new Error();
             }
@@ -186,10 +190,10 @@ function App() {
               .then((forecast) => {
                 setWeatherData((prevState) => ({
                   ...prevState,
-                  enableDashboard: true,
+                  enableAnimation: true,
                   currentWeatherData: { ...currentWeather },
                   fetchedWeatherData: { ...forecast },
-                  code: null,
+                  code: { status: "200" },
                 }));
               });
           })
@@ -199,11 +203,10 @@ function App() {
       } else {
         setWeatherData((prevState) => ({
           ...prevState,
-          code: '1000',
+          code: { status: "1000" },
         }));
       }
     }
-
   }, [city]);
   /*
    *
@@ -212,7 +215,7 @@ function App() {
   }, [weatherData]);
   /*
    *
-   */
+   *
   useEffect(() => {
 
   }, []);
@@ -221,13 +224,15 @@ function App() {
    */
   return (
     <WeatherApp
+      getCurrentPosition={getCurrentPosition}
       allowPosition={allowCurrentPosition}
       flagPosition={weatherData.allowPosition}
       setCity={setCity}
       city={city}
-      enableDashboard={enableDashboard}
+      enableAnimation={enableAnimation}
       fetchedWeatherData={fetchedWeatherData}
       currentWeatherData={currentWeatherData}
+      setEnableAnimation={setEnableAnimation}
       code={code}
     />
   );
