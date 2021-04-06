@@ -16,7 +16,6 @@ function App() {
     latitude: null,
     longitude: null,
     allowPosition: false,
-    enableAnimation: false,
     currentWeatherData: {},
     code: null,
   });
@@ -25,21 +24,11 @@ function App() {
     latitude,
     longitude,
     allowPosition,
-    enableAnimation,
     fetchedWeatherData,
     currentWeatherData,
     code,
   } = weatherData;
-  /**
-   * 
-   * @param {*} animationFlag 
-   */
-  const setEnableAnimation = (animationFlag) => {
-    setWeatherData((prevState) => ({
-      ...prevState,
-      enableAnimation: animationFlag
-    }));
-  }
+
   /**
    *
    * @param {*} city
@@ -225,14 +214,12 @@ function App() {
   return (
     <WeatherApp
       getCurrentPosition={getCurrentPosition}
-      allowPosition={allowCurrentPosition}
-      flagPosition={weatherData.allowPosition}
-      setCity={setCity}
+      /*   allowPosition={allowCurrentPosition}*/
+      /* flagPosition={weatherData.allowPosition}*/
+      /*    setCity={setCity}*/
       city={city}
-      enableAnimation={enableAnimation}
       fetchedWeatherData={fetchedWeatherData}
       currentWeatherData={currentWeatherData}
-      setEnableAnimation={setEnableAnimation}
       code={code}
     />
   );

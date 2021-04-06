@@ -2,6 +2,8 @@
  * react import
  */
 import { useEffect, useState, memo } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { activeAnimation, selectCityName, enableGeolocalization } from '../../Rtk/Slices/weatherDataConfig'
 /*
  *  ant library import
  */
@@ -20,28 +22,32 @@ const CityField = memo(
     setCity,
     allowPosition,
     flagPosition,
-    city,
+    /* city,*/
     currentWeatherData,
     code,
-    enableAnimation,
-    setEnableAnimation }) => {
+  }) => {
     const [cityField, setCityField] = useState(null);
-    console.log(currentWeatherData)
+    const dispatch = useDispatch()
+    const { city, enableAnimation, geolocalization } = useSelector(state => state.weatherDataConfigState/*weatherDataSelector*/)
+
     /*
      * 
      */
     const handlerSwitch = () => {
-      allowPosition(!flagPosition)
-      setEnableAnimation(true)
+      dispatch(enableGeolocalization(!geolocalization))
+      /* allowPosition(!flagPosition)*/
+      dispatch(activeAnimation(true))
+
     }
     /*
      * 
      */
     const handlerAnimationEnd = () => {
-      if (flagPosition) {
+      if (/*flagPosition*/geolocalization) {
         getCurrentPosition()
       } else {
-        setCity(cityField)
+        /* setCity(cityField)*/
+        dispatch(selectCityName(cityField))
       }
     }
     /*
@@ -51,9 +57,10 @@ const CityField = memo(
     const onPressEnterKey = (evt) => {
       evt.preventDefault();
       if (enableAnimation) {
-        setCity(cityField)
+        /*   setCity(cityField)*/
+        dispatch(selectCityName(cityField))
       } else {
-        setEnableAnimation(true)
+        dispatch(activeAnimation(true))
       }
     };
     /**
@@ -61,8 +68,9 @@ const CityField = memo(
      * @param {*} evt 
      */
     const hanlderCityField = (evt) => {
-      if (flagPosition) {
-        allowPosition(false);
+      if (/*flagPosition*/geolocalization) {
+        /*  allowPosition(false);*/
+        dispatch(enableGeolocalization(false))
       }
       setCityField(evt.target.value);
     };
@@ -92,7 +100,7 @@ const CityField = memo(
           <Switch
             style={{ marginLeft: 10 }}
             onChange={handlerSwitch}
-            checked={flagPosition}
+            checked={/*flagPosition*/geolocalization}
           />
         </Popover>
       </div>
