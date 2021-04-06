@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiKey } from "../../apiKey";
-import store from "./weatherDataConfig";
+import { setCoordinates } from "./weatherDataConfig";
 /*
  *
  */
 export const initialState = {
   loading: false,
-  errors: { isError: false, error: null },
+  errors: { code: null, message: null, isError: false, error: null },
   data: {
     currentWeather: {},
     forecastData: [],
@@ -32,8 +32,7 @@ const weatherSlice = createSlice({
     },
     setError: (state, { payload }) => {
       state.loading = false;
-      state.errors.isError = true;
-      state.errors.error = payload;
+      state.errors = { ...state.error, ...payload }
     },
   },
 });
@@ -61,27 +60,42 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
     } catch (error) {
       dispatch(setError(error));
     }
-    if (currentWeather.cod === "404") {
+    if (currentWeather.cod === 200) {
       dispatch(setCurrentWeather(currentWeather));
+      if (getForecastData) {
+        const { lat: latitude, lon: longitude } = currentWeather.coord;
+        dispatch(setCoordinates({ latitude, longitude }))
+        try {
+          const response = await fetch(
+            `${host}/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=it`
+          );
+          const data = await response.json();
+          dispatch(setForecastWeather(data));
+          dispatch(enableLoading(false))
+        } catch (error) {
+          /* dispatch(setError(error));*/
+        }
+      }
     } else {
+      dispatch(setError({
+        code: currentWeather.cod,
+        message: currentWeather.message,
+        isError: true
+      }))
+      dispatch(enableLoading(false))
     }
-
-    /* const { lat: latitude, lon: longitude } = currentWeather.coord;
-      try {
-        const response = await fetch(
-          `${host}/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=it`
-        );
-        const data = await response.json();
-        dispatch(setForecastWeather(data));
-      } catch (error) {
-        dispatch(setError(error));
-      }*/
   };
 };
+
+
+
+
 
 // Three actions generated from the slice
 
 // A selector
 export const weatherDataSelector = (state) => state.weatherState;
-
+/**
+ * 
+ */
 export default weatherSlice.reducer;

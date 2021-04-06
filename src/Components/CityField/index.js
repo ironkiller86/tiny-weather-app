@@ -1,12 +1,13 @@
 /*
  * react import
  */
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   activeAnimation,
   selectCityName,
   enableGeolocalization,
+  getCurrentPosition
 } from "../../Rtk/Slices/weatherDataConfig";
 import { fetchWeatherData } from "../../Rtk/Slices/weatherState";
 /*
@@ -23,7 +24,7 @@ import "./styles.css";
  */
 const CityField = memo(
   ({
-    getCurrentPosition,
+    /* getCurrentPosition,*/
     placeholder,
     setCity,
     allowPosition,
@@ -44,29 +45,30 @@ const CityField = memo(
      */
     const handlerSwitch = () => {
       dispatch(enableGeolocalization(!geolocalization));
-      /* allowPosition(!flagPosition)*/
       dispatch(activeAnimation(true));
     };
     /*
      *
      */
-    const handlerAnimationEnd = () => {
+    const handlerAnimationEnd = useCallback(() => {
+
       if (/*flagPosition*/ geolocalization) {
-        getCurrentPosition();
+        dispatch(getCurrentPosition())
+        /* getCurrentPosition();*/
       } else {
-        /* setCity(cityField)*/
         dispatch(selectCityName(cityField));
+        let options = {
+          getForecastData: true,
+        }
         dispatch(
           fetchWeatherData(
             host,
-            cityField /*, {
-            getForecastData: false,
-            lang: "it",
-          }*/
+            cityField,
+            options
           )
         );
       }
-    };
+    }, [geolocalization, cityField])
     /*
      *
      * @param {*} evt
@@ -74,9 +76,17 @@ const CityField = memo(
     const onPressEnterKey = (evt) => {
       evt.preventDefault();
       if (enableAnimation) {
-        /*   setCity(cityField)*/
         dispatch(selectCityName(cityField));
-        console.log("before");
+        let options = {
+          getForecastData: true,
+        }
+        dispatch(
+          fetchWeatherData(
+            host,
+            cityField,
+            options
+          )
+        );
       } else {
         dispatch(activeAnimation(true));
       }
@@ -87,7 +97,6 @@ const CityField = memo(
      */
     const hanlderCityField = (evt) => {
       if (/*flagPosition*/ geolocalization) {
-        /*  allowPosition(false);*/
         dispatch(enableGeolocalization(false));
       }
       setCityField(evt.target.value);

@@ -153,54 +153,12 @@ function App() {
    *
    */
   useEffect(() => {
-    /* let currentWeather = null;
-    if (city) {
-      if (navigator.onLine) {
-        fetch(
-          `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
-        )
-          .then((response) => response.json())
-          .then((data) => {
 
-            if (data?.cod === "404") {
-              setWeatherData((prevState) => ({
-                ...prevState,
-                code: { status: "404" },
-              }));
-              throw new Error();
-            }
-            currentWeather = { ...data };
-          })
-          .then(() => {
-            fetch(
-              `${host}/data/2.5/onecall?lat=${currentWeather.coord.lat}&lon=${currentWeather.coord.lon}&appid=${apiKey}&units=metric&lang=it`
-            )
-              .then((response) => response.json())
-              .then((forecast) => {
-                setWeatherData((prevState) => ({
-                  ...prevState,
-                  enableAnimation: true,
-                  currentWeatherData: { ...currentWeather },
-                  fetchedWeatherData: { ...forecast },
-                  code: { status: "200" },
-                }));
-              });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        setWeatherData((prevState) => ({
-          ...prevState,
-          code: { status: "1000" },
-        }));
-      }
-    }*/
   }, [city]);
   /*
    *
    */
-  useEffect(() => {}, [weatherData]);
+  useEffect(() => { }, [weatherData]);
   /*
    *
    *
@@ -212,7 +170,7 @@ function App() {
    */
   return (
     <WeatherApp
-      getCurrentPosition={getCurrentPosition}
+      /* getCurrentPosition={getCurrentPosition}*/
       /*   allowPosition={allowCurrentPosition}*/
       /* flagPosition={weatherData.allowPosition}*/
       /*    setCity={setCity}*/

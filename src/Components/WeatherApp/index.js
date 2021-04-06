@@ -5,6 +5,7 @@ import WeatherPanelDx from "../WeatherPanelDx";
 import WeatherPanelSx from "../WeatherPanelSx";
 import ForecastPanel from "../ForecastPanel";
 import "./styles.css";
+import { useSelector } from "react-redux";
 
 const { Content } = Layout;
 /**
@@ -13,6 +14,9 @@ const { Content } = Layout;
  */
 const WeatherApp = (props) => {
   const { currentWeatherData } = props;
+  const { currentWeather: { dt, sys, name, main, weather, cod } } = useSelector(
+    (state) => state.weatherState.data /*weatherDataSelector*/
+  );
 
   /*
    *
@@ -39,17 +43,17 @@ const WeatherApp = (props) => {
           </Col>
           <Col xs={2} sm={5} md={7} lg={7} xl={8} xxl={8} />
         </Row>
-        {props?.code?.status === '200' ?
+        {props?.code?.status/*cod*/ === 200 ?
           <>
             <Row>
               <Col span={24}>
                 <CityInfo
                   firstMessage={
-                    currentWeatherData.name +
+                    name +
                     ", " +
-                    currentWeatherData.sys.country
+                    sys.country
                   }
-                  secondMessage={props.currentWeatherData.dt}
+                  secondMessage={dt}
                 />
               </Col>
             </Row>
@@ -57,10 +61,10 @@ const WeatherApp = (props) => {
               <Col lg={1} />
               <Col xs={24} sm={24} md={24} lg={11}>
                 <WeatherPanelSx
-                  temp={currentWeatherData.main.temp}
-                  description={currentWeatherData.weather[0].description}
-                  iconId={currentWeatherData.weather[0].id}
-                  mainCondition={currentWeatherData.weather[0].main}
+                  temp={main.temp}
+                  description={weather[0].description}
+                  iconId={weather[0].id}
+                  mainCondition={weather[0].main}
                 />
               </Col>
               <Col xs={24} sm={24} md={24} lg={11}>
