@@ -153,7 +153,7 @@ function App() {
    *
    */
   useEffect(() => {
-    let currentWeather = null;
+    /* let currentWeather = null;
     if (city) {
       if (navigator.onLine) {
         fetch(
@@ -195,13 +195,12 @@ function App() {
           code: { status: "1000" },
         }));
       }
-    }
+    }*/
   }, [city]);
   /*
    *
    */
-  useEffect(() => {
-  }, [weatherData]);
+  useEffect(() => {}, [weatherData]);
   /*
    *
    *

@@ -2,8 +2,13 @@
  * react import
  */
 import { useEffect, useState, memo } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { activeAnimation, selectCityName, enableGeolocalization } from '../../Rtk/Slices/weatherDataConfig'
+import { useDispatch, useSelector } from "react-redux";
+import {
+  activeAnimation,
+  selectCityName,
+  enableGeolocalization,
+} from "../../Rtk/Slices/weatherDataConfig";
+import { fetchWeatherData } from "../../Rtk/Slices/weatherState";
 /*
  *  ant library import
  */
@@ -17,7 +22,8 @@ import "./styles.css";
  *
  */
 const CityField = memo(
-  ({ getCurrentPosition,
+  ({
+    getCurrentPosition,
     placeholder,
     setCity,
     allowPosition,
@@ -27,29 +33,40 @@ const CityField = memo(
     code,
   }) => {
     const [cityField, setCityField] = useState(null);
-    const dispatch = useDispatch()
-    const { city, enableAnimation, geolocalization } = useSelector(state => state.weatherDataConfigState/*weatherDataSelector*/)
+    const dispatch = useDispatch();
+    const { city, enableAnimation, geolocalization } = useSelector(
+      (state) => state.weatherDataConfigState /*weatherDataSelector*/
+    );
+    const host = "https://api.openweathermap.org";
 
     /*
-     * 
+     *
      */
     const handlerSwitch = () => {
-      dispatch(enableGeolocalization(!geolocalization))
+      dispatch(enableGeolocalization(!geolocalization));
       /* allowPosition(!flagPosition)*/
-      dispatch(activeAnimation(true))
-
-    }
+      dispatch(activeAnimation(true));
+    };
     /*
-     * 
+     *
      */
     const handlerAnimationEnd = () => {
-      if (/*flagPosition*/geolocalization) {
-        getCurrentPosition()
+      if (/*flagPosition*/ geolocalization) {
+        getCurrentPosition();
       } else {
         /* setCity(cityField)*/
-        dispatch(selectCityName(cityField))
+        dispatch(selectCityName(cityField));
+        dispatch(
+          fetchWeatherData(
+            host,
+            cityField /*, {
+            getForecastData: false,
+            lang: "it",
+          }*/
+          )
+        );
       }
-    }
+    };
     /*
      *
      * @param {*} evt
@@ -58,24 +75,25 @@ const CityField = memo(
       evt.preventDefault();
       if (enableAnimation) {
         /*   setCity(cityField)*/
-        dispatch(selectCityName(cityField))
+        dispatch(selectCityName(cityField));
+        console.log("before");
       } else {
-        dispatch(activeAnimation(true))
+        dispatch(activeAnimation(true));
       }
     };
     /**
-     * 
-     * @param {*} evt 
+     *
+     * @param {*} evt
      */
     const hanlderCityField = (evt) => {
-      if (/*flagPosition*/geolocalization) {
+      if (/*flagPosition*/ geolocalization) {
         /*  allowPosition(false);*/
-        dispatch(enableGeolocalization(false))
+        dispatch(enableGeolocalization(false));
       }
       setCityField(evt.target.value);
     };
     /*
-     * 
+     *
      */
     useEffect(() => {
       setCityField(city);
@@ -84,8 +102,11 @@ const CityField = memo(
      *
      */
     return (
-      <div onAnimationEnd={handlerAnimationEnd} className={"cityFieldContainer"}
-        style={enableAnimation ? { animationName: 'example' } : {}}>
+      <div
+        onAnimationEnd={handlerAnimationEnd}
+        className={"cityFieldContainer"}
+        style={enableAnimation ? { animationName: "example" } : {}}
+      >
         <form onSubmit={onPressEnterKey} style={{ width: "100%" }}>
           <Input
             onChange={hanlderCityField}
@@ -100,7 +121,7 @@ const CityField = memo(
           <Switch
             style={{ marginLeft: 10 }}
             onChange={handlerSwitch}
-            checked={/*flagPosition*/geolocalization}
+            checked={/*flagPosition*/ geolocalization}
           />
         </Popover>
       </div>
