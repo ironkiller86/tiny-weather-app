@@ -19,8 +19,8 @@ const weatherSlice = createSlice({
   name: "weatherState",
   initialState,
   reducers: {
-    enableLoading: (state) => {
-      state.loading = !state.loading;
+    enableLoading: (state, { payload }) => {
+      state.loading = payload;
     },
     setCurrentWeather: (state, { payload }) => {
       state.data.currentWeather = payload;
@@ -32,7 +32,7 @@ const weatherSlice = createSlice({
     },
     setError: (state, { payload }) => {
       state.loading = false;
-      state.errors = { ...state.error, ...payload }
+      state.errors = { ...state.error, ...payload };
     },
   },
 });
@@ -64,38 +64,36 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
       dispatch(setCurrentWeather(currentWeather));
       if (getForecastData) {
         const { lat: latitude, lon: longitude } = currentWeather.coord;
-        dispatch(setCoordinates({ latitude, longitude }))
+        dispatch(setCoordinates({ latitude, longitude }));
         try {
           const response = await fetch(
             `${host}/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=it`
           );
           const data = await response.json();
           dispatch(setForecastWeather(data));
-          dispatch(enableLoading(false))
+          dispatch(enableLoading(false));
         } catch (error) {
           /* dispatch(setError(error));*/
         }
       }
     } else {
-      dispatch(setError({
-        code: currentWeather.cod,
-        message: currentWeather.message,
-        isError: true
-      }))
-      dispatch(enableLoading(false))
+      dispatch(
+        setError({
+          code: currentWeather.cod,
+          message: currentWeather.message,
+          isError: true,
+        })
+      );
+      dispatch(enableLoading(false));
     }
   };
 };
-
-
-
-
 
 // Three actions generated from the slice
 
 // A selector
 export const weatherDataSelector = (state) => state.weatherState;
 /**
- * 
+ *
  */
 export default weatherSlice.reducer;

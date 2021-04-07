@@ -8,11 +8,26 @@
   min-height: 200px;
   display: flex;
   align-items: center;
+  /* animation-fill-mode: forwards;
+  animation-duration: 1s;
+  animation-name: "example"*/
+}
+.cityFieldContainer2 {
+  position: relative;
+  top: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
   animation-fill-mode: forwards;
   animation-duration: 1s;
+  animation-name: example;
 }
 
 @keyframes example {
+  0% {
+    left: 0px;
+    top: 100%;
+  }
   100% {
     left: 0px;
     top: 10px;
