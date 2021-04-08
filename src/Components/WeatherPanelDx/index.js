@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import WeatherDetailBox from "../WeatherDetailBox";
 import { getLocalData } from "../../utils";
+import { useSelector } from "react-redux";
 import "./styles.css";
 /*
  *
  */
-const WeatherPanelDx = ({ currentWeatherData }) => {
-
+const WeatherPanelDx = () => {
   const [currentData, setCurrentData] = useState([]);
+  const { currentWeather } = useSelector(
+    (state) => state.weatherState.data
+  );
   /*
    *
    */
@@ -16,14 +19,14 @@ const WeatherPanelDx = ({ currentWeatherData }) => {
       temp_max = null,
       temp_min = null,
       pressure = null,
-    } = currentWeatherData?.main;
+    } = currentWeather?.main;
     const dataWeatherPanelDx = {
       temp_max,
       temp_min,
       pressure,
-      sunrise: currentWeatherData.sys.sunrise,
-      sunset: currentWeatherData.sys.sunset,
-      windSpeed: currentWeatherData.wind.speed,
+      sunrise: currentWeather.sys.sunrise,
+      sunset: currentWeather.sys.sunset,
+      windSpeed: currentWeather.wind.speed,
     };
     let weatherDataArray = [];
     weatherDataArray.push(
@@ -44,7 +47,7 @@ const WeatherPanelDx = ({ currentWeatherData }) => {
       }
     );
     setCurrentData(weatherDataArray);
-  }, [currentWeatherData]);
+  }, [currentWeather]);
   /*
    * 
    */

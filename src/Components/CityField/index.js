@@ -27,7 +27,6 @@ import "./styles.css";
 const CityField = memo(({ placeholder }) => {
   console.log("CityField component");
   const [cityField, setCityField] = useState(null);
-  /*const [geoSwitch, setGeoSwitch] = useState(false)*/
   const dispatch = useDispatch();
   const { city, enableAnimation, geolocation, animationEnd } = useSelector(
     (state) => state.weatherDataConfigState /*weatherDataSelector*/
@@ -66,7 +65,6 @@ const CityField = memo(({ placeholder }) => {
        * not found
        */
     }
-
   };
   /**
    * 
@@ -99,7 +97,9 @@ const CityField = memo(({ placeholder }) => {
     }
     setCityField(evt.target.value);
   };
-
+  /**
+   * 
+   */
   useEffect(() => {
     if (city) {
       setCityField(city)
@@ -107,109 +107,11 @@ const CityField = memo(({ placeholder }) => {
   }, [city])
   /*
    *
-   *
-  const handlerSwitch = () => {
-    console.log("CityField component - handlerSwitch");
-    dispatch(enableGeolocation(!geolocation));
-    dispatch(selectCityName(null));
-    dispatch(setCoordinates({ latitude: null, longitude: null }));
-    if (!enableAnimation) {
-      dispatch(activeAnimation(true));
-    }
-  };
-  /*
-   *
-   *
-  const handlerAnimationEnd = () => {
-    console.log("CityField component - handlerAnimationEnd");
-    dispatch(setAnimationEnd(true));
-    /* if (geolocation) {
-      dispatch(getWeatherDataByCoordinates(host));
-    } else if (city) {
-      console.log("eccolo");
-      dispatch(selectCityName(cityField));
-      let options = {
-        getForecastData: true,
-      };
-      dispatch(fetchWeatherData(host, cityField, options));
-    }
-  };
-  /*
-   *
-   * @param {*} evt
-   *
-  const onPressEnterKey = (evt) => {
-    console.log("CityField component - onPressEnterKey");
-    evt.preventDefault();
-    dispatch(selectCityName(cityField));
-    if (animationEnd) {
-      dispatch(selectCityName(cityField));
-      let options = {
-        getForecastData: true,
-      };
-      dispatch(fetchWeatherData(host, cityField, options));
-    } else {
-      dispatch(activeAnimation(true));
-    }
-  };
-  /**
-   *
-   * @param {*} evt
-   *
-  const handlerCityField = (evt) => {
-    console.log("CityField component - handlerCityField");
-    if (geolocation) {
-      dispatch(enableGeolocation(false));
-      dispatch(setCoordinates({ latitude: null, longitude: null }));
-    }
-    setCityField(evt.target.value);
-  };
-  /*
-   *
-   *
-  useEffect(() => {
-    console.log("CityField component - useEffect by city field");
-    setCityField(city);
-    if (city) {
-      dispatch(selectCityName(cityField));
-      let options = {
-        getForecastData: true,
-      };
-      dispatch(fetchWeatherData(host, cityField, options));
-    }
-  }, [city]);
-  /**
-   *
-   *
-  useEffect(() => {
-    console.log(
-      "CityField component - useEffect by animationEnd",
-      animationEnd
-    );
-    if (animationEnd) {
-      if (geolocation) {
-        dispatch(getWeatherDataByCoordinates(host));
-      }
-       if (city) {
-        console.log("eccolo");
-        dispatch(selectCityName(cityField));
-        let options = {
-          getForecastData: true,
-        };
-        dispatch(fetchWeatherData(host, cityField, options));
-      }
-    }
-  }, [animationEnd, geolocation]);*/
-
-  /*
-   *
    */
   return (
     <div
-
       className={enableAnimation ? "cityFieldContainer2" : "cityFieldContainer"}
       onAnimationEnd={handlerAnimationEnd}
-    /*style={enableAnimation ? { animationName: "example" } : {} null}*/
     >
       <form onSubmit={onPressEnterKey} style={{ width: "100%" }}>
         <Input

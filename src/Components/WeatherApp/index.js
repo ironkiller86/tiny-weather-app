@@ -15,8 +15,10 @@ const { Content } = Layout;
 const WeatherApp = (props) => {
   const { currentWeatherData } = props;
   const {
-    currentWeather: { dt, sys, name, main, weather, cod },
-  } = useSelector((state) => state.weatherState.data /*weatherDataSelector*/);
+    errors: { code },
+    data: { forecastData,
+      currentWeather: { dt, sys, name, main, weather, cod } },
+  } = useSelector((state) => state.weatherState/*.data*/);
 
   /*
    *
@@ -31,7 +33,7 @@ const WeatherApp = (props) => {
           </Col>
           <Col xs={2} sm={5} md={7} lg={7} xl={8} xxl={8} />
         </Row>
-        {props?.code?.status /*cod*/ === 200 ? (
+        {/*props?.code?.status*/ cod === 200 ? (
           <>
             <Row>
               <Col span={24}>
@@ -52,7 +54,7 @@ const WeatherApp = (props) => {
                 />
               </Col>
               <Col xs={24} sm={24} md={24} lg={11}>
-                <WeatherPanelDx currentWeatherData={currentWeatherData} />
+                <WeatherPanelDx />
               </Col>
               <Col lg={1} />
             </Row>
@@ -63,14 +65,14 @@ const WeatherApp = (props) => {
             </Row>
             <Row>
               <Col span={24}>
-                <ForecastPanel forecastWeather={props.fetchedWeatherData} />
+                <ForecastPanel forecastWeather={forecastData} />
               </Col>
             </Row>
             <Col span={24}>
               <div className="footer">Made by Tuzzolino Donato</div>
             </Col>
           </>
-        ) : props?.code?.status === "404" || props?.code?.status === "1000" ? (
+        ) : code === "404" || code === "1000" ? (
           <Row>
             <Col xs={2} sm={4} md={8} />
             <Col xs={20} sm={18} md={8}>
@@ -81,7 +83,7 @@ const WeatherApp = (props) => {
                 }}
                 message="Ops"
                 description={
-                  props.code.status === "404"
+                  code === "404"
                     ? "Località non trovata"
                     : "Connessione alla Rete assente"
                 }
