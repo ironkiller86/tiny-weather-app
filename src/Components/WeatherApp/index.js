@@ -4,6 +4,7 @@ import CityInfo from "../CityInfo";
 import WeatherPanelDx from "../WeatherPanelDx";
 import WeatherPanelSx from "../WeatherPanelSx";
 import ForecastPanel from "../ForecastPanel";
+import WarningDisplay from "../WarningDisplay";
 import "./styles.css";
 import { useSelector } from "react-redux";
 
@@ -13,12 +14,13 @@ const { Content } = Layout;
  * @returns
  */
 const WeatherApp = (props) => {
-  const { currentWeatherData } = props;
   const {
-    errors: { code },
-    data: { forecastData,
-      currentWeather: { dt, sys, name, main, weather, cod } },
-  } = useSelector((state) => state.weatherState/*.data*/);
+    httpStatus: { code },
+    data: {
+      forecastData,
+      currentWeather: { dt, sys, name, main, weather },
+    },
+  } = useSelector((state) => state.weatherState /*.data*/);
 
   /*
    *
@@ -33,12 +35,12 @@ const WeatherApp = (props) => {
           </Col>
           <Col xs={2} sm={5} md={7} lg={7} xl={8} xxl={8} />
         </Row>
-        {/*props?.code?.status*/ cod === 200 ? (
+        {code === "200" ? (
           <>
             <Row>
               <Col span={24}>
                 <CityInfo
-                  firstMessage={name + ", " + sys.country}
+                  firstMessage={name + ", " + sys?.country}
                   secondMessage={dt}
                 />
               </Col>
@@ -72,28 +74,15 @@ const WeatherApp = (props) => {
               <div className="footer">Made by Tuzzolino Donato</div>
             </Col>
           </>
-        ) : code === "404" || code === "1000" ? (
+        ) : (
           <Row>
             <Col xs={2} sm={4} md={8} />
             <Col xs={20} sm={18} md={8}>
-              <Alert
-                style={{
-                  borderRadius: 15,
-                  opacity: 0.8,
-                }}
-                message="Ops"
-                description={
-                  code === "404"
-                    ? "Località non trovata"
-                    : "Connessione alla Rete assente"
-                }
-                type="warning"
-                showIcon
-              />
+              <WarningDisplay />
             </Col>
             <Col xs={2} sm={4} md={8} />
           </Row>
-        ) : null}
+        )}
       </Content>
     </Layout>
   );

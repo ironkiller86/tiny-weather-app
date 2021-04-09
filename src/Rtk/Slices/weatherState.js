@@ -6,7 +6,7 @@ import { setCoordinates } from "./weatherDataConfig";
  */
 export const initialState = {
   loading: false,
-  errors: { code: null, message: null, isError: false, error: null },
+  httpStatus: { code: null, message: null, isError: false, error: null },
   data: {
     currentWeather: {},
     forecastData: [],
@@ -30,9 +30,9 @@ const weatherSlice = createSlice({
       state.data.forecastData = payload;
       state.loading = false;
     },
-    setError: (state, { payload }) => {
+    setHttpStatus: (state, { payload }) => {
       state.loading = false;
-      state.errors = { ...state.error, ...payload };
+      state.httpStatus = { ...state.httpStatus, ...payload };
     },
   },
 });
@@ -40,7 +40,7 @@ export const {
   enableLoading,
   setCurrentWeather,
   setForecastWeather,
-  setError,
+  setHttpStatus,
 } = weatherSlice.actions;
 /**
  *  Asynchronous thunk action
@@ -58,10 +58,11 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
       );
       currentWeather = await response.json();
     } catch (error) {
-      dispatch(setError(error));
+      /* dispatch(setHttpStatus(error));*/
     }
     if (currentWeather.cod === 200) {
       dispatch(setCurrentWeather(currentWeather));
+      dispatch(setHttpStatus({ code: "200" }));
       if (getForecastData) {
         const { lat: latitude, lon: longitude } = currentWeather.coord;
         dispatch(setCoordinates({ latitude, longitude }));
@@ -73,12 +74,12 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
           dispatch(setForecastWeather(data));
           dispatch(enableLoading(false));
         } catch (error) {
-          /* dispatch(setError(error));*/
+          /* dispatch(setHttpStatus(error));*/
         }
       }
     } else {
       dispatch(
-        setError({
+        setHttpStatus({
           code: currentWeather.cod,
           message: currentWeather.message,
           isError: true,

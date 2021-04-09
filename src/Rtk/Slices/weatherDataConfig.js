@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { enableLoading, fetchWeatherData } from "./weatherState";
+import { enableLoading, fetchWeatherData, setHttpStatus } from "./weatherState";
 import { apiKey } from "../../apiKey";
 /*
  *
@@ -63,6 +63,8 @@ export const getWeatherDataByCoordinates = (host) => {
       }
     } catch (error) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>", error);
+      const { code, message } = error;
+      dispatch(setHttpStatus({ code, message }));
     }
   };
 };
