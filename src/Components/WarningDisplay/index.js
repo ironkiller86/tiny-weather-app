@@ -26,28 +26,47 @@ const WarningDisplay = () => {
             showIcon
           />
         );
+      case "2":
+        return (
+          <Alert
+            className="alert"
+            message="Attenzione"
+            description={"Geolocalizzazione non riuscita"}
+            type="error"
+            showIcon
+          />
+        );
+      case "600":
+        return (
+          <Alert
+            className="alert"
+            message="Attenzione"
+            description={message}
+            type="error"
+            showIcon
+          />
+        );
       case "1":
         return (
           <Alert
-            message="Problema con la Geolocalizzaione"
+            message="Problema con la Geolocalizzazione"
             description={message}
             type="warning"
             showIcon
           />
         );
       default:
-        return null;
-      /* return (
-         /* <Alert
+        /* return null;*/
+        return (
+          <Alert
             message="Errore"
             description={"Qualcosa è andata storto...Errore Sconosciuto"}
             type="error"
             showIcon
           />
-        );*/
+        );
     }
   };
-
   return printWarning();
 };
 /*

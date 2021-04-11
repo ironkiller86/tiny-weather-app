@@ -2,9 +2,13 @@
   max-height: 50px;
   border-radius: 20px;
 }
-.myinput[type='checkbox'] {
+.myInput[type="checkbox"] {
   height: 20px;
   width: 20px;
+}
+.spinnerContainer {
+  margin-left: 10px;
+  min-width: 20px;
 }
 
 .cityFieldContainer {
@@ -13,9 +17,6 @@
   min-height: 200px;
   display: flex;
   align-items: center;
-  /* animation-fill-mode: forwards;
-  animation-duration: 1s;
-  animation-name: "example"*/
 }
 .cityFieldContainer2 {
   position: relative;

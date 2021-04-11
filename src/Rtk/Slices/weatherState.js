@@ -56,13 +56,22 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
       const response = await fetch(
         `${host}/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=it`
       );
-      currentWeather = await response.json();
+      currentWeather = await response?.json();
+      console.log(currentWeather);
     } catch (error) {
-      /* dispatch(setHttpStatus(error));*/
+      dispatch(
+        setHttpStatus({
+          code: "600",
+          message: "Connessione Internet non trovata",
+          isError: true,
+        })
+      );
+      dispatch(enableLoading(false));
+      return;
     }
-    if (currentWeather.cod === 200) {
+    if (currentWeather?.cod === 200) {
       dispatch(setCurrentWeather(currentWeather));
-      dispatch(setHttpStatus({ code: "200" }));
+      dispatch(setHttpStatus({ code: "200", isError: false }));
       if (getForecastData) {
         const { lat: latitude, lon: longitude } = currentWeather.coord;
         dispatch(setCoordinates({ latitude, longitude }));
@@ -74,14 +83,21 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
           dispatch(setForecastWeather(data));
           dispatch(enableLoading(false));
         } catch (error) {
-          /* dispatch(setHttpStatus(error));*/
+          dispatch(
+            setHttpStatus({
+              code: "500",
+              message: "Qualcosa è andato storto, Riprova dopo",
+              isError: true,
+            })
+          );
+          dispatch(enableLoading(false));
         }
       }
     } else {
+      console.log("dentro");
       dispatch(
         setHttpStatus({
-          code: currentWeather.cod,
-          message: currentWeather.message,
+          code: "404",
           isError: true,
         })
       );
@@ -89,9 +105,6 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
     }
   };
 };
-
-// Three actions generated from the slice
-
 // A selector
 export const weatherDataSelector = (state) => state.weatherState;
 /**

@@ -1,4 +1,4 @@
-import { Layout, Row, Col, Alert } from "antd";
+import { Layout, Row, Col } from "antd";
 import CityField from "../CityField";
 import CityInfo from "../CityInfo";
 import WeatherPanelDx from "../WeatherPanelDx";
@@ -13,15 +13,17 @@ const { Content } = Layout;
  *
  * @returns
  */
-const WeatherApp = (props) => {
+const WeatherApp = () => {
   const {
     httpStatus: { code },
+    loading,
     data: {
       forecastData,
       currentWeather: { dt, sys, name, main, weather },
     },
-  } = useSelector((state) => state.weatherState /*.data*/);
+  } = useSelector((state) => state.weatherState);
 
+  console.log(`code ${code} -  loading:${loading}`);
   /*
    *
    */
@@ -35,7 +37,7 @@ const WeatherApp = (props) => {
           </Col>
           <Col xs={2} sm={5} md={7} lg={7} xl={8} xxl={8} />
         </Row>
-        {code === "200" ? (
+        {code === "200" && !loading ? (
           <>
             <Row>
               <Col span={24}>
@@ -74,7 +76,7 @@ const WeatherApp = (props) => {
               <div className="footer">Made by Tuzzolino Donato</div>
             </Col>
           </>
-        ) : (
+        ) : code && code !== "200" && !loading ? (
           <Row>
             <Col xs={2} sm={4} md={8} />
             <Col xs={20} sm={18} md={8}>
@@ -82,7 +84,7 @@ const WeatherApp = (props) => {
             </Col>
             <Col xs={2} sm={4} md={8} />
           </Row>
-        )}
+        ) : null}
       </Content>
     </Layout>
   );

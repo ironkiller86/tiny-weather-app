@@ -38,10 +38,23 @@ const weatherDataConfigSlice = createSlice({
   },
 });
 export const getWeatherDataByCoordinates = (host) => {
+  console.log("getWeatherDataByCoordinates");
   return async (dispatch) => {
     dispatch(enableLoading(true));
     let position = null;
     try {
+      setTimeout(() => {
+        if (!position) {
+          dispatch(
+            setHttpStatus({
+              code: "600",
+              message: "La geolocalizzazione  non  sta funzionando",
+              isError: true,
+            })
+          );
+          dispatch(enableLoading(false));
+        }
+      }, 10000);
       position = await geolocation();
       const { latitude = null, longitude = null } = position.coords;
       if (latitude && longitude) {
@@ -58,13 +71,21 @@ export const getWeatherDataByCoordinates = (host) => {
           };
           dispatch(fetchWeatherData(host, cityData[0].name, options));
         } catch (error) {
-          /* dispatch(setError(error));*/
+          dispatch(
+            setHttpStatus({
+              code: "500",
+              message: "Qualcosa è andato storto, Riprova dopo",
+              isError: true,
+            })
+          );
+          dispatch(enableLoading(false));
         }
       }
     } catch (error) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>", error);
+      console.log("geolocation catch");
       const { code, message } = error;
       dispatch(setHttpStatus({ code, message }));
+      dispatch(enableLoading(false));
     }
   };
 };
@@ -75,7 +96,9 @@ export const getWeatherDataByCoordinates = (host) => {
  */
 const geolocation = (options = null) => {
   return new Promise((resolve, reject) => {
+    console.log("geolocation");
     if (navigator.geolocation) {
+      console.log("geolocation ok");
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
     } else {
       console.log(
