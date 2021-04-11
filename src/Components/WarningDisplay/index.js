@@ -49,6 +49,7 @@ const WarningDisplay = () => {
       case "1":
         return (
           <Alert
+            className="alert"
             message="Problema con la Geolocalizzazione"
             description={message}
             type="warning"
@@ -59,6 +60,7 @@ const WarningDisplay = () => {
         /* return null;*/
         return (
           <Alert
+            className="alert"
             message="Errore"
             description={"Qualcosa è andata storto...Errore Sconosciuto"}
             type="error"
