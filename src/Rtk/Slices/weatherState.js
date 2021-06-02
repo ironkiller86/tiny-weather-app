@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiKey } from "../../apiKey";
 import { setCoordinates } from "./weatherDataConfig";
 /*
@@ -12,6 +12,35 @@ export const initialState = {
     forecastData: [],
   },
 };
+
+export const fetchWeatherData = createAsyncThunk('weatherState/fetch',
+  async (obj, { dispatch }) => {
+    const response = await fetch(`${obj.host}/data/2.5/weather?q=${obj.city}&appid=${apiKey}&units=metric&lang=it`
+    );
+    let currentWeather = await response?.json();
+    let forecastData;
+    dispatch(setHttpStatus({ code: "200", isError: false }));
+    if (obj.getForecastData) {
+      const { lat: latitude, lon: longitude } = currentWeather.coord;
+      dispatch(setCoordinates({ latitude, longitude }));
+      try {
+        const response = await fetch(
+          `${obj.host}/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=it`
+        );
+        forecastData = await response.json();
+
+        /*  dispatch(setForecastWeather(data));
+          dispatch(enableLoading(false));*/
+      } catch (error) {
+
+      }
+    }
+    return { currentWeather, forecastData }
+
+
+  })
+
+
 /*
  *
  */
@@ -31,10 +60,24 @@ const weatherSlice = createSlice({
       state.loading = false;
     },
     setHttpStatus: (state, { payload }) => {
-      state.loading = false;
       state.httpStatus = { ...state.httpStatus, ...payload };
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchWeatherData.fulfilled, (state, action) => {
+      state.loading = false
+      state.data.currentWeather = action.payload.currentWeather
+      state.data.forecastData = action.payload.forecastData
+
+    })
+    builder.addCase(fetchWeatherData.pending, (state, action) => {
+      state.loading = true
+    })
+    builder.addCase(fetchWeatherData.rejected, (state, action) => {
+      console.log(action.payload)
+      state.loading = false
+    })
+  }
 });
 export const {
   enableLoading,
@@ -42,12 +85,16 @@ export const {
   setForecastWeather,
   setHttpStatus,
 } = weatherSlice.actions;
+
+
+
+
 /**
  *  Asynchronous thunk action
  * @param {*} host
  * @param {*} city
  * @returns
- */
+ *
 export const fetchWeatherData = (host, city, getForecastData = false) => {
   return async (dispatch) => {
     let currentWeather = null;
@@ -104,7 +151,12 @@ export const fetchWeatherData = (host, city, getForecastData = false) => {
       dispatch(enableLoading(false));
     }
   };
-};
+};*/
+/**
+ * 
+ * @param {*} state 
+ * @returns 
+ */
 // A selector
 export const weatherDataSelector = (state) => state.weatherState;
 /**

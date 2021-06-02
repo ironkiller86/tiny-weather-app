@@ -63,7 +63,8 @@ const CityField = memo(({ placeholder }) => {
       let options = {
         getForecastData: true,
       };
-      dispatch(fetchWeatherData(host, cityField, options));
+      let obj = { host: host, city: cityField, getForecastData: true, }
+      dispatch(fetchWeatherData(obj))
     } else {
       /**
        * not found
@@ -85,7 +86,9 @@ const CityField = memo(({ placeholder }) => {
       let options = {
         getForecastData: true,
       };
-      dispatch(fetchWeatherData(host, cityField, options));
+      console.log("cityField>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", cityField)
+      let obj = { host: host, city: cityField, getForecastData: true, }
+      dispatch(fetchWeatherData(obj))
     }
   };
   /*
