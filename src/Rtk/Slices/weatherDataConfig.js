@@ -66,10 +66,12 @@ export const getWeatherDataByCoordinates = (host) => {
           );
           cityData = await response.json();
           dispatch(selectCityName(cityData[0].name));
-          let options = {
+          let payload = {
+            host: host,
+            city: cityData[0].name,
             getForecastData: true,
           };
-          dispatch(fetchWeatherData(host, cityData[0].name, options));
+          dispatch(fetchWeatherData(payload));
         } catch (error) {
           dispatch(
             setHttpStatus({

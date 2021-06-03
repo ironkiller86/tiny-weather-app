@@ -25,7 +25,7 @@ import "./styles.css";
  *
  */
 const CityField = memo(({ placeholder }) => {
-  console.log("CityField component");
+  /*console.log("CityField component");*/
   const [cityField, setCityField] = useState(null);
   const dispatch = useDispatch();
   const {
@@ -60,11 +60,8 @@ const CityField = memo(({ placeholder }) => {
       dispatch(getWeatherDataByCoordinates(host));
     } else if (cityField) {
       dispatch(selectCityName(cityField));
-      let options = {
-        getForecastData: true,
-      };
-      let obj = { host: host, city: cityField, getForecastData: true, }
-      dispatch(fetchWeatherData(obj))
+      let obj = { host: host, city: cityField, getForecastData: true };
+      dispatch(fetchWeatherData(obj));
     } else {
       /**
        * not found
@@ -83,12 +80,8 @@ const CityField = memo(({ placeholder }) => {
     } else {
       dispatch(selectCityName(cityField));
       dispatch(setCoordinates({ latitude: null, longitude: null }));
-      let options = {
-        getForecastData: true,
-      };
-      console.log("cityField>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", cityField)
-      let obj = { host: host, city: cityField, getForecastData: true, }
-      dispatch(fetchWeatherData(obj))
+      let obj = { host: host, city: cityField, getForecastData: true };
+      dispatch(fetchWeatherData(obj));
     }
   };
   /*
@@ -96,7 +89,7 @@ const CityField = memo(({ placeholder }) => {
    * @param {*} evt
    */
   const handlerCityField = (evt) => {
-    console.log("CityField component - handlerCityField");
+    /* console.log("CityField component - handlerCityField");*/
     if (geolocation) {
       dispatch(enableGeolocation(false));
       dispatch(setCoordinates({ latitude: null, longitude: null }));
