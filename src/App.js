@@ -4,9 +4,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import WeatherApp from "./Components/WeatherApp";
-import { apiKey } from "./apiKey";
 const host = "https://api.openweathermap.org";
-
+const apiKey = process.env.REACT_APP_WEATHER_API_KEY
 /*
  *
  */
